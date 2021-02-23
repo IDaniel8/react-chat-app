@@ -5,9 +5,9 @@
 This app uses the latest version on react and its constructed with hooks and functional components.
 the architecture its based on the containers/view pattern with reusable global components, also another tools like:
 
-for the base scaffoling => create-react-app [docs](https://create-react-app.dev/docs/getting-started/)
-for the styling => styled-components [docs](https://styled-components.com/)
-for websockets communication => Socket.IO [docs](https://socket.io/)
+_for the base scaffoling => create-react-app_ [docs](https://create-react-app.dev/docs/getting-started/)<br/>
+_for the styling => styled-components_ [docs](https://styled-components.com/)<br/>
+_for websockets communication => Socket.IO_ [docs](https://socket.io/)<br/>
 
 ### Node Socket Server (Server REST Api)
 
