@@ -77,12 +77,12 @@ function Chat() {
         }
       }}
       onStartTyping={() => {
-        socket.emit('startTyping', room)
+        socket.emit('startTyping', room.toLowerCase())
       }}
       onStopTyping={() => {
         // delay
         debounce(() => {
-          socket.emit('finishedTyping', room)
+          socket.emit('finishedTyping', room.toLowerCase())
         }, 400)
       }}
     />
