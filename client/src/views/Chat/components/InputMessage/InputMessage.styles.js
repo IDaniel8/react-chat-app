@@ -8,7 +8,7 @@ const InputMessageForm = styled.form`
 const InputMessageInput = styled.input`
   border: none;
   border-radius: 0;
-  padding: 5%;
+  padding: 12px;
   width: 80%;
   font-size: 1.2em;
 `
