@@ -1,0 +1,42 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "prettier/react"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/state-in-constructor": "off",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off",
+    "react/prop-types": "off",
+    "react/jsx-fragments": [1, "element"],
+    "react/no-array-index-key": "off",
+    "import/no-unresolved": [
+      2,
+      { "caseSensitive": false, "ignore": ["^[@]"] }
+    ],
+    "no-unused-vars": "warn",
+    "no-debugger": "warn",
+    "global-require": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [["@assets", "./src/assets"]]
+    }
+  }
+}
