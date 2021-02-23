@@ -6,7 +6,8 @@ import { debounce } from '../../shared'
 import ChatView from './ChatView'
 
 let socket
-const SOCKET_ENDPOINT = 'localhost:5000'
+const SOCKET_ENDPOINT =
+  process.env.REACT_APP_SOCKET_ENDPOINT || 'localhost:5000'
 
 function Chat() {
   const location = useLocation()
