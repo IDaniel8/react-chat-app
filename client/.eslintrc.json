@@ -36,7 +36,11 @@
   },
   "settings": {
     "import/resolver": {
-      "alias": [["@assets", "./src/assets"]]
+      "alias": [
+        ["@assets", "./src/assets"],
+        ["@components", "./src/components"],
+        ["@hooks", "./src/hooks"]
+      ]
     }
   }
 }

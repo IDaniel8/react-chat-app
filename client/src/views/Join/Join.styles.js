@@ -10,7 +10,8 @@ const JoinContainer = styled.div`
   background-color: #1a1a1d;
 `
 const JoinInnerContainer = styled.div`
-  width: 20%;
+  width: 100%;
+  max-width: 280px;
 
   & > *:not(:last-child) {
     margin-bottom: 20px;
@@ -44,6 +45,13 @@ const JoinButton = styled.button`
   }
 `
 
+const ErrorMessage = styled.div`
+  color: #e63946;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 20px 0;
+`
+
 export {
   EmptyBox,
   JoinButton,
@@ -51,4 +59,5 @@ export {
   JoinHeading,
   JoinInnerContainer,
   JoinInput,
+  ErrorMessage,
 }

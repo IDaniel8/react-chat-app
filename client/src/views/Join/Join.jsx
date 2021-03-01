@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { useOnlineUser } from '@hooks/index'
 
 import * as S from './Join.styles'
 
 function Join() {
+  const isOnlineUser = useOnlineUser()
   const [name, setName] = useState('')
   const [room, setRoom] = useState('')
 
@@ -33,6 +35,7 @@ function Join() {
         <S.JoinHeading>Join</S.JoinHeading>
         <S.EmptyBox>
           <S.JoinInput
+            disabled={!isOnlineUser}
             placeholder="Name"
             type="text"
             onChange={nameChange}
@@ -40,6 +43,7 @@ function Join() {
         </S.EmptyBox>
         <S.EmptyBox>
           <S.JoinInput
+            disabled={!isOnlineUser}
             placeholder="Room"
             type="text"
             onChange={roomChange}
@@ -51,6 +55,12 @@ function Join() {
         >
           <S.JoinButton>Sign In</S.JoinButton>
         </Link>
+        {!isOnlineUser && (
+          <S.ErrorMessage>
+            You have a poor internet connection, be sure that you have
+            internet and try again!...
+          </S.ErrorMessage>
+        )}
       </S.JoinInnerContainer>
     </S.JoinContainer>
   )

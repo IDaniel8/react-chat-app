@@ -1,5 +1,5 @@
 {
-  "name": "phones-app",
+  "name": "chat-app",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,12 +10,9 @@
     "server:dev": "cd server && yarn dev",
     "install:client": "cd client && yarn install",
     "install:server": "cd server && yarn install",
-    "postinstall": "npm run install:client && npm run install:server",
-    "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client:dev\"",
-    "deploy:backend": "git subtree push --prefix server heroku master"
+    "postinstall": "npm run install:client && npm run install:server"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1",
     "husky": "^4.3.0"
   },
   "husky": {
