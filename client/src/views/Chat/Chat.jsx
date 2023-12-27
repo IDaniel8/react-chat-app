@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import io from 'socket.io-client'
 import { debounce } from '../../shared'
@@ -17,9 +17,8 @@ function Chat() {
   const [messageState, setMessageState] = useState('')
   const [messagesState, setMessagesState] = useState([])
   const [connectedUsersState, setConnectedUsersState] = useState([])
-  const [isSomeoneTypingState, setIsSomeoneTypingState] = useState(
-    false,
-  )
+  const [isSomeoneTypingState, setIsSomeoneTypingState] =
+    useState(false)
 
   useEffect(() => {
     socket = io(SOCKET_ENDPOINT)
@@ -60,6 +59,31 @@ function Chat() {
     setConnectedUsersState,
   ])
 
+  const onSetMessage = useCallback(
+    (inputMessage) => {
+      setMessageState(inputMessage)
+    },
+    [setMessageState],
+  )
+
+  const onSendMessage = useCallback(() => {
+    if (messageState.trim()) {
+      socket.emit('sendMessage', messageState, () => {
+        setMessageState('')
+      })
+    }
+  }, [messageState, setMessageState])
+
+  const onStartTyping = useCallback(() => {
+    socket.emit('startTyping', room.toLowerCase())
+  }, [])
+
+  const onStopTyping = useCallback(() => {
+    debounce(() => {
+      socket.emit('finishedTyping', room.toLowerCase())
+    }, 400)
+  }, [])
+
   return (
     <ChatView
       name={name}
@@ -68,23 +92,10 @@ function Chat() {
       messageList={messagesState}
       usersConnected={connectedUsersState.length}
       isSomeoneTyping={isSomeoneTypingState}
-      onSetMessage={(inputMessage) => setMessageState(inputMessage)}
-      sendMessage={() => {
-        if (messageState) {
-          socket.emit('sendMessage', messageState, () => {
-            setMessageState('')
-          })
-        }
-      }}
-      onStartTyping={() => {
-        socket.emit('startTyping', room.toLowerCase())
-      }}
-      onStopTyping={() => {
-        // delay
-        debounce(() => {
-          socket.emit('finishedTyping', room.toLowerCase())
-        }, 400)
-      }}
+      onSetMessage={onSetMessage}
+      sendMessage={onSendMessage}
+      onStartTyping={onStartTyping}
+      onStopTyping={onStopTyping}
     />
   )
 }

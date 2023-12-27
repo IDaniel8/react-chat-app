@@ -22,6 +22,7 @@ const JoinHeading = styled.h1`
   font-size: 2.5em;
   padding-bottom: 10px;
   border-bottom: 2px solid white;
+  color: #2979ff;
 `
 const JoinInput = styled.input`
   border-radius: 0;
@@ -42,6 +43,11 @@ const JoinButton = styled.button`
 
   &:focus {
     outline: none;
+  }
+
+  &:disabled {
+    color: #000000;
+    background: #d3d3d3;
   }
 `
 

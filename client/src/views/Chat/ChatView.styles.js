@@ -20,7 +20,7 @@ const ChatViewInnerContainer = styled.div`
   @media (min-width: 480px) {
     width: 60%;
     height: 80%;
-  } ;
+  }
 `
 
 const ChatViewConnectedUsers = styled.div`

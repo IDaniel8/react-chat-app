@@ -14,4 +14,6 @@ function Main() {
 }
 
 ReactDOM.render(<Main />, document.getElementById('root'))
-registerServiceWorker.register()
+
+if (process.env.NODE_ENV === 'production')
+  registerServiceWorker.register()

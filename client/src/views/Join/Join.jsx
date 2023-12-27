@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useOnlineUser } from '@hooks/index'
 
 import * as S from './Join.styles'
 
 function Join() {
   const isOnlineUser = useOnlineUser()
+  const history = useHistory()
   const [name, setName] = useState('')
   const [room, setRoom] = useState('')
 
@@ -23,16 +24,16 @@ function Join() {
     [setRoom],
   )
 
-  const onNavigate = (evt) => {
-    if (!name || !room) {
-      evt.preventDefault()
+  const onNavigate = useCallback(() => {
+    if (name && room) {
+      history.push(`./chat?name=${name}&room=${room}`)
     }
-  }
+  }, [name, room])
 
   return (
     <S.JoinContainer>
       <S.JoinInnerContainer>
-        <S.JoinHeading>Join</S.JoinHeading>
+        <S.JoinHeading>Lets Chat App</S.JoinHeading>
         <S.EmptyBox>
           <S.JoinInput
             disabled={!isOnlineUser}
@@ -49,12 +50,9 @@ function Join() {
             onChange={roomChange}
           />
         </S.EmptyBox>
-        <Link
-          onClick={onNavigate}
-          to={`/chat?name=${name}&room=${room}`}
-        >
-          <S.JoinButton>Sign In</S.JoinButton>
-        </Link>
+        <S.JoinButton onClick={onNavigate} disabled={!name || !room}>
+          Sign In
+        </S.JoinButton>
         {!isOnlineUser && (
           <S.ErrorMessage>
             You have a poor internet connection, be sure that you have
