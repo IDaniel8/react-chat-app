@@ -60,7 +60,11 @@ function Chat() {
   ])
 
   const onSetMessage = (inputMessage) => {
+    socket.emit('startTyping', room.toLowerCase())
     setMessageState(inputMessage)
+    debounce(() => {
+      socket.emit('finishedTyping', room.toLowerCase())
+    }, 400)
   }
 
   const onSendMessage = () => {
@@ -69,16 +73,6 @@ function Chat() {
         setMessageState('')
       })
     }
-  }
-
-  const onStartTyping = () => {
-    socket.emit('startTyping', room.toLowerCase())
-  }
-
-  const onStopTyping = () => {
-    debounce(() => {
-      socket.emit('finishedTyping', room.toLowerCase())
-    }, 400)
   }
 
   return (
@@ -91,8 +85,6 @@ function Chat() {
       isSomeoneTyping={isSomeoneTypingState}
       onSetMessage={onSetMessage}
       sendMessage={onSendMessage}
-      onStartTyping={onStartTyping}
-      onStopTyping={onStopTyping}
     />
   )
 }

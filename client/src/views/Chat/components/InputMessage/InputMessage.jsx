@@ -3,13 +3,7 @@ import React, { useCallback } from 'react'
 import * as S from './InputMessage.styles'
 
 function InputMessage(props) {
-  const {
-    message,
-    setMessage,
-    sendMessage,
-    onStartTyping,
-    onStopTyping,
-  } = props
+  const { message, setMessage, sendMessage } = props
 
   const onMessage = useCallback(
     (evt) => {
@@ -44,8 +38,6 @@ function InputMessage(props) {
         value={message}
         onChange={onMessage}
         onKeyPress={onEnterMessage}
-        onKeyDown={onStartTyping}
-        onKeyUp={onStopTyping}
       />
       <S.InputMessageButton type="submit" onClick={onSendMessage}>
         Send

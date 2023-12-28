@@ -13,8 +13,6 @@ function ChatView(props) {
     usersConnected,
     onSetMessage,
     sendMessage,
-    onStartTyping,
-    onStopTyping,
   } = props
 
   return (
@@ -31,8 +29,6 @@ function ChatView(props) {
           message={message}
           setMessage={onSetMessage}
           sendMessage={sendMessage}
-          onStartTyping={onStartTyping}
-          onStopTyping={onStopTyping}
         />
       </S.ChatViewInnerContainer>
     </S.ChatViewContainer>
