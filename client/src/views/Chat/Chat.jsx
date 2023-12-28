@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import io from 'socket.io-client'
 import { debounce } from '../../shared'
@@ -59,30 +59,27 @@ function Chat() {
     setConnectedUsersState,
   ])
 
-  const onSetMessage = useCallback(
-    (inputMessage) => {
-      setMessageState(inputMessage)
-    },
-    [setMessageState],
-  )
+  const onSetMessage = (inputMessage) => {
+    setMessageState(inputMessage)
+  }
 
-  const onSendMessage = useCallback(() => {
+  const onSendMessage = () => {
     if (messageState.trim()) {
       socket.emit('sendMessage', messageState, () => {
         setMessageState('')
       })
     }
-  }, [messageState, setMessageState])
+  }
 
-  const onStartTyping = useCallback(() => {
+  const onStartTyping = () => {
     socket.emit('startTyping', room.toLowerCase())
-  }, [])
+  }
 
-  const onStopTyping = useCallback(() => {
+  const onStopTyping = () => {
     debounce(() => {
       socket.emit('finishedTyping', room.toLowerCase())
     }, 400)
-  }, [])
+  }
 
   return (
     <ChatView

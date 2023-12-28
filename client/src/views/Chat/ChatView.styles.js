@@ -14,12 +14,12 @@ const ChatViewInnerContainer = styled.div`
   justify-content: space-between;
   background: #ffffff;
   border-radius: 8px;
-  height: 100%;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 
   @media (min-width: 480px) {
-    width: 60%;
-    height: 80%;
+    width: 60vw;
+    height: 80vh;
   }
 `
 
