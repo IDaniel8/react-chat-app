@@ -18,7 +18,7 @@ function ChatView(props) {
   return (
     <S.ChatViewContainer>
       <S.ChatViewInnerContainer>
-        <InfoBar room={room} />
+        <InfoBar name={name} room={room} />
         <MessageList name={name} messageList={messageList} />
         <S.ChatViewConnectedUsers>
           {isSomeoneTyping

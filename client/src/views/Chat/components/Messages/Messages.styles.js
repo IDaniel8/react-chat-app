@@ -15,28 +15,40 @@ const MessageContainer = styled.div`
     props.isCurrentUser ? 'flex-end' : 'flex-start'};
   padding: 1% 5%;
   margin-top: 3px;
+  gap: 10px;
+  word-break: break-all;
 `
 
-const MessageSentText = styled.p`
+const MessageUserNameText = styled.div`
   display: flex;
   align-items: center;
   font-family: Helvetica;
   color: #828282;
   letter-spacing: 0.3px;
-  padding-left: ${(props) =>
-    props.isCurrentUser ? 'unset' : '10px'};
-  padding-right: ${(props) =>
-    props.isCurrentUser ? '10px' : 'unset'};
+  padding-left: unset;
+  font-weight: 700;
 `
 
-const MessageBox = styled.div`
+const MessageUserSentText = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: Helvetica;
+  color: ${(props) => (props.isCurrentUser ? '#F3F3F3' : '#828282')};
   background: ${(props) =>
     props.isCurrentUser ? '#2979FF' : '#F3F3F3'};
+  letter-spacing: 0.3px;
   border-radius: 20px;
   padding: 5px 20px;
-  color: white;
-  display: inline-block;
-  max-width: 80%;
+`
+
+const MessageAdminSentText = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: Helvetica;
+  color: #828282;
+  letter-spacing: 0.3px;
+  padding-left: 10px;
+  padding-right: unset;
 `
 
 const MessageText = styled.div`
@@ -48,10 +60,22 @@ const MessageText = styled.div`
   color: ${(props) => (props.isCurrentUser ? '#FFFFFF' : '#353535')};
 `
 
+const AdminMessage = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  & > strong {
+    color: #2979ff;
+  }
+`
+
 export {
   MessageList,
   MessageContainer,
-  MessageSentText,
-  MessageBox,
+  MessageUserNameText,
+  MessageUserSentText,
+  MessageAdminSentText,
   MessageText,
+  AdminMessage,
 }

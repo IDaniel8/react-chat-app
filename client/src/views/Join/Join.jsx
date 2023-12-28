@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useOnlineUser } from '@hooks/index'
 
@@ -7,6 +7,8 @@ import * as S from './Join.styles'
 function Join() {
   const isOnlineUser = useOnlineUser()
   const history = useHistory()
+
+  const [error, setError] = useState(null)
   const [name, setName] = useState('')
   const [room, setRoom] = useState('')
 
@@ -26,9 +28,22 @@ function Join() {
 
   const onNavigate = useCallback(() => {
     if (name && room) {
-      history.push(`./chat?name=${name}&room=${room}`)
+      history.push(
+        `./chat?name=${name.trim().toLowerCase()}&room=${room
+          .trim()
+          .toLowerCase()}`,
+      )
     }
   }, [name, room])
+
+  useEffect(() => {
+    setError(
+      JSON.parse(
+        sessionStorage.getItem('__ERRORMESSAGE__') ?? 'null',
+      ),
+    )
+    sessionStorage.removeItem('__ERRORMESSAGE__')
+  }, [setError])
 
   return (
     <S.JoinContainer>
@@ -59,6 +74,7 @@ function Join() {
             internet and try again!...
           </S.ErrorMessage>
         )}
+        {error && <S.ErrorMessage>{error?.message}</S.ErrorMessage>}
       </S.JoinInnerContainer>
     </S.JoinContainer>
   )

@@ -3,9 +3,6 @@ import http from "http";
 import { Server } from "socket.io";
 import bodyParser from "body-parser";
 import cors from "cors";
-import responseLogMiddleware from "./middlewares/responseLog";
-
-import HelloController from "./controllers/hello.controller";
 import ConnectionSocket from "./sockets/connection.socket";
 
 // ENV VARIABLES
@@ -24,10 +21,6 @@ const io = new Server(server, {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(responseLogMiddleware);
-
-// API calls
-app.use(HelloController(router));
 
 // IO connection
 ConnectionSocket(io);

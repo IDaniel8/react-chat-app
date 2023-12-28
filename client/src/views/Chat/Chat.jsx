@@ -20,26 +20,49 @@ function Chat() {
   const [isSomeoneTypingState, setIsSomeoneTypingState] =
     useState(false)
 
+  const fallbackRoute = () => {
+    history.replace('/')
+  }
+
+  const onSetError = (error) => {
+    sessionStorage.setItem('__ERRORMESSAGE__', JSON.stringify(error))
+    fallbackRoute()
+  }
+
+  const onSetMessage = (inputMessage) => {
+    socket.emit('startTyping', room.toLowerCase())
+    setMessageState(inputMessage)
+    debounce(() => {
+      socket.emit('finishedTyping', room.toLowerCase())
+    }, 400)
+  }
+
+  const onSendMessage = () => {
+    if (messageState.trim()) {
+      socket.emit('sendMessage', messageState, () => {
+        setMessageState('')
+      })
+    }
+  }
+
   useEffect(() => {
     socket = io(SOCKET_ENDPOINT)
     const queryUser = Object.fromEntries([
       ...new URLSearchParams(location.search).entries(),
     ])
 
-    if (!queryUser || !queryUser?.name || !queryUser?.room) {
-      history.replace('/')
-    }
+    setName(queryUser?.name?.trim()?.toLowerCase())
+    setRoom(queryUser?.room?.trim()?.toLowerCase())
 
-    setName(queryUser?.name)
-    setRoom(queryUser?.room)
-
-    socket.emit('join', queryUser, () => {})
+    socket.emit('join', queryUser, (error) => {
+      onSetError(error)
+    })
 
     return () => {
       socket.disconnect()
       socket.off()
     }
-  }, [location.search])
+  }, [location.search, setName, setRoom])
 
   useEffect(() => {
     socket.on('message', (message) => {
@@ -58,22 +81,6 @@ function Chat() {
     setIsSomeoneTypingState,
     setConnectedUsersState,
   ])
-
-  const onSetMessage = (inputMessage) => {
-    socket.emit('startTyping', room.toLowerCase())
-    setMessageState(inputMessage)
-    debounce(() => {
-      socket.emit('finishedTyping', room.toLowerCase())
-    }, 400)
-  }
-
-  const onSendMessage = () => {
-    if (messageState.trim()) {
-      socket.emit('sendMessage', messageState, () => {
-        setMessageState('')
-      })
-    }
-  }
 
   return (
     <ChatView

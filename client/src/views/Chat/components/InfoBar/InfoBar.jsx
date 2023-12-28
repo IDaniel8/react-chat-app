@@ -15,7 +15,7 @@ function InfoBar(props) {
     <S.InfoBarContainer>
       <S.InfoBarLeftInnerContainer>
         <S.InforBarOnlineIcon />
-        <S.InfoBarTitle>{room}</S.InfoBarTitle>
+        <S.InfoBarTitle>Room &quot;{room}&quot;</S.InfoBarTitle>
       </S.InfoBarLeftInnerContainer>
       <S.InfoBarRightInnerContainer>
         <S.InforBarCloseIcon onClick={closeChat} />

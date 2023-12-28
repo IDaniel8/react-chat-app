@@ -1,25 +1,36 @@
 import * as UserService from "../services/user.service";
 
+const errorCreator = (message) => {
+  return { message };
+};
+
 function ConnectionSocket(io) {
   io.on("connection", (socket) => {
-    socket.on("join", ({ name, room }, callback) => {
-      const { error, user } = UserService.addUser({
-        id: socket.id,
-        name,
-        room,
-      });
-
-      if (error) {
-        return callback(error);
+    socket.on("join", (requestUser, callback) => {
+      if (
+        !requestUser ||
+        (!requestUser?.name && !requestUser?.room)
+      ) {
+        return callback(errorCreator("Invalid Access..."));
+      } else if (UserService.getUserByName(requestUser.name)) {
+        return callback(errorCreator("Name is already used..."));
       }
+
+      const user = UserService.addUser({
+        id: socket.id,
+        name: requestUser.name,
+        room: requestUser.room,
+      });
 
       socket.emit("message", {
         user: "admin",
-        text: `${user.name}, welcome to the room ${user.room}`,
+        text: `<strong>${user.name}</strong> welcome to the room <strong>${user.room}</strong>`,
       });
-      socket.broadcast
-        .to(user.room)
-        .emit("message", { user: "admin", text: `${user.name}, has joined` });
+
+      socket.broadcast.to(user.room).emit("message", {
+        user: "admin",
+        text: `<strong>${user.name}</strong> has joined`,
+      });
 
       socket.join(user.room);
 
@@ -27,14 +38,15 @@ function ConnectionSocket(io) {
         room: user.room,
         users: UserService.getUsersInRoom(user.room),
       });
-
-      callback();
     });
 
     socket.on("sendMessage", (message, callback) => {
       const user = UserService.getUser(socket.id);
 
-      io.to(user.room).emit("message", { user: user.name, text: message });
+      io.to(user.room).emit("message", {
+        user: user.name,
+        text: message,
+      });
 
       callback();
     });

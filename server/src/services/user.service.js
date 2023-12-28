@@ -1,42 +1,52 @@
-// DB simulation
-const users = [];
+const path = require("path");
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
+const adapter = new FileSync(path.join(__dirname, "../../db.json"));
+const db = low(adapter);
 
 const addUser = ({ id, name, room }) => {
-  name = name.trim().toLowerCase();
-  room = room.trim().toLowerCase();
+  const newUser = {
+    id,
+    name: name.trim().toLowerCase(),
+    room: room.trim().toLowerCase(),
+  };
 
-  const isExistedUser = Boolean(
-    users.find((user) => user.room === room && user.name === name)
-  );
+  db.get("users").push(newUser).write();
 
-  if (isExistedUser) {
-    return { error: "Username is taken" };
-  }
-
-  const user = { id, name, room };
-  users.push(user);
-
-  return { user };
+  return newUser;
 };
 
 const removeUser = (id) => {
-  const index = users.findIndex((user) => user.id === id);
+  const presentUser = db.get("users").find({ id });
 
-  if (index !== -1) {
-    return users.splice(index, 1)[0];
+  if (presentUser.value()) {
+    const userRemoved = { ...presentUser.value() };
+    db.get("users").remove({ id }).write();
+    return userRemoved;
   }
 };
 
 const getUser = (id) => {
-  return users.find((user) => user.id === id);
+  return db.get("users").find({ id }).value();
+};
+
+const getUserByName = (name) => {
+  return db.get("users").find({ name }).value();
 };
 
 const getUsersInRoom = (room) => {
-  return users.filter((user) => user.room === room);
+  return db.get("users").filter({ room }).value();
 };
 
 const getAllUsers = () => {
-  return users;
+  return db.get("users").value();
 };
 
-export { addUser, removeUser, getUser, getUsersInRoom, getAllUsers };
+export {
+  addUser,
+  removeUser,
+  getUser,
+  getUserByName,
+  getUsersInRoom,
+  getAllUsers,
+};

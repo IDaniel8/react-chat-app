@@ -6,20 +6,34 @@ import * as S from './Messages.styles'
 function Message({ message, name }) {
   const { user, text } = message
 
+  const isSentByTheAdmin = useMemo(() => {
+    return user === 'admin'
+  }, [user])
+
   const isSentByCurrentUser = useMemo(() => {
-    return user === name.trim().toLowerCase()
+    return user === name
   }, [user])
 
   return (
     <S.MessageContainer isCurrentUser={isSentByCurrentUser}>
-      <S.MessageSentText isCurrentUser={isSentByCurrentUser}>
-        {isSentByCurrentUser ? name.trim().toLowerCase() : user}
-      </S.MessageSentText>
-      <S.MessageBox isCurrentUser={isSentByCurrentUser}>
-        <S.MessageText isCurrentUser={isSentByCurrentUser}>
-          {ReactEmoji.emojify(text)}
-        </S.MessageText>
-      </S.MessageBox>
+      {isSentByTheAdmin && (
+        <S.MessageAdminSentText>
+          <S.AdminMessage
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </S.MessageAdminSentText>
+      )}
+
+      {!isSentByTheAdmin && (
+        <React.Fragment>
+          <S.MessageUserNameText>
+            {isSentByCurrentUser ? name : user}
+          </S.MessageUserNameText>
+          <S.MessageUserSentText isCurrentUser={isSentByCurrentUser}>
+            {ReactEmoji.emojify(text)}
+          </S.MessageUserSentText>
+        </React.Fragment>
+      )}
     </S.MessageContainer>
   )
 }

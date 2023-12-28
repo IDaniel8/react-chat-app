@@ -20,6 +20,7 @@ const InfoBarLeftInnerContainer = styled.div`
   align-items: center;
   margin-left: 5%;
   color: white;
+  gap: 6px;
 `
 
 const InfoBarRightInnerContainer = styled.div`
@@ -29,9 +30,8 @@ const InfoBarRightInnerContainer = styled.div`
   margin-right: 5%;
 `
 
-const InforBarOnlineIcon = styled.img.attrs({ src: OnlineIcon })`
-  margin-right: 5%;
-`
+const InforBarOnlineIcon = styled.img.attrs({ src: OnlineIcon })``
+
 const InforBarCloseIcon = styled.img.attrs({ src: CloseIcon })``
 
 const InfoBarTitle = styled.h3``
